@@ -6,29 +6,73 @@
 
 ## 1. Research Motivation
 
-### 1.1 The Problem (ABT Framework)
+### 1.1 Where We Started
 
-We live in an era of unprecedented digital connectivity. Social media platforms, group chats, and notification systems give us constant access to information about the people in our lives — globally, over 5 billion people now use social media platforms (Roberts et al., 2025). **And** yet, a quiet but growing body of evidence suggests that this connectivity is not translating into felt closeness. A nine-year longitudinal study following nearly 7,000 adults found that both passive and active social media use were linked to increased feelings of loneliness over time — suggesting that the very platforms designed to connect people may deepen isolation rather than relieve it (Roberts et al., 2025). Crucially, this effect is most pronounced among people who use social media specifically to _maintain_ close relationships — precisely the use case it promises to serve. **But** the dominant paradigms of social technology — feed-based broadcasting, reactive messaging, algorithmic curation of attention — are optimized for mass engagement, not for the subtle, low-effort awareness that characterizes being near someone you care about. Smartphone notifications alone have been shown to significantly increase inattention and reduce psychological well-being even when not acted upon (Kushlev & Dunn, 2016). Notifications demand; feeds compete; messages require a reply. **Therefore**, there is a meaningful design gap for systems that support presence-awareness and emotional connection among close friends without triggering the very attention burdens that make current platforms feel exhausting.
+Our team works **interest-first, research-second**. We did not start from a research problem — we started from a feeling we wanted to design for.
 
-### 1.2 Why This Matters
+Our reference point is what friendship expert Matt Ritter calls **"doorbell friends"** (Ritter, n.d.) — and what anyone who watched _Friends_ already recognizes: Joey wanders into Monica's apartment without calling. Chandler shows up because the light is on. Nobody schedules. Nobody messages first. Ritter defines a doorbell friend as someone who can show up at your house, ring the bell, and be welcomed not as a nuisance but as a pleasant surprise. He argues this register — built through low-stakes consistency rather than scheduled intensity — is what modern adult friendship has structurally lost.
 
-This is not merely a UX inconvenience. The stakes of social disconnection are well-established and severe. Holt-Lunstad et al.'s landmark 2015 meta-analysis of over 3.4 million participants across 70 studies found that loneliness is associated with a 26% increased risk of early mortality, with social isolation linked to a 29% increase — effect sizes comparable to those of obesity and smoking. Their 2010 meta-analysis further demonstrated that being socially connected increases odds of survival by 50%, controlling for age and initial health status. Yet the modern urban lifestyle — characterized by geographic dispersal, smaller households, and delayed family formation — is structurally reducing the quantity and quality of close social contact (Holt-Lunstad et al., 2010).
+We take Ritter's framing as the **gold standard** for the kind of friendship we want digital tools to support. But we also want to name the tension head-on: a doorbell friend, in the literal sense Ritter writes about, requires **physical proximity**. You cannot ring the bell of a friend who lives in another city, another country, another time zone. Yet that geographically dispersed configuration is exactly the situation our target users live in — young adults whose closest friends scattered after college, after grad school, after first jobs.
 
-The ambient texture of day-to-day life — the quiet knowledge that a friend is awake at 2am, or going through something heavy, or in a particularly good mood — has no meaningful counterpart in digital systems. Current platforms either broadcast too broadly (public feeds) or demand too explicitly (direct messages requiring a response). Awareness systems and calm technology have been studied in HCI for over two decades since Weiser and Brown (1996), but the majority of that work either targets workplace collaboration contexts (e.g., StudioBridge, CareNet) or focuses on elderly users and family communication. For the population of young adults navigating urban life, geographic dispersal, and emotionally significant but geographically distant friendships, ambient social connection in an expressive, low-demand register remains a critically underexplored design territory.
+So our motivating question is not "how do we replicate Ritter's prescription digitally" — that prescription (say yes to low-stakes hangs, lower the bar, just stop by) **assumes co-location we don't have**. Our question is one step over: **can a digital ambient environment reproduce the _register_ of doorbell-friend relationships — no scheduling, no performance, no obligation to respond, casual presence built through consistency — when literal doorbells are off the table?**
 
-### 1.3 The Interaction Scenario
+The seed of our project, in those terms: friends should be able to leave _traces_ for each other to discover, the way you might notice a book left open on someone's desk, or a light still on across the courtyard at 2am. Not a post. Not a message. Not a notification. Not a doorbell ring either — because rings still demand a sender and a receiver. Just a quiet, ambient sign that someone is there, and something of who they are. The digital equivalent of seeing the kitchen light on across the courtyard — without ever needing to walk over.
+
+Our first sketch was a **shared digital garden** — friends draw, and the drawings become flowers in each other's gardens. From that, we extracted three design variables we cared about:
+
+- `<something>` — the shared artifact people gather around (garden → night city block)
+- `<a_way>` — the expressive interaction (drawing, color, photo, voice fragment)
+- `<feel_something>` — the emotional outcome (felt closeness without obligation)
+
+### 1.2 Three Design Values We Are Committed To
+
+1. **Creative & artistic, not utilitarian.** The interaction should feel expressive — closer to keeping a diary than filling a form.
+2. **Physical over purely digital.** A tangible artifact (a small lit building model on the desk) sitting in peripheral vision matters more to us than another tab in the browser.
+3. **Social but gentle.** No notifications, no read receipts, no obligation to reply. Friends discover each other by wandering, not by being pinged.
+
+Night City Block is the current incarnation of this commitment: a shared dim city where each friend inhabits a block, a private daily diary becomes the atmosphere of that block, and connection happens by quietly noticing each other's lights.
+
+### 1.3 Why Existing Apps Don't Fit
+
+A wave of consumer apps targets the same gap we feel — IG / feeds are too public, DMs are too demanding — and aims at the same population (young adults, close friend groups). Looking at them sharpened what we actually want.
+
+- **Locket Widget** — friends' photos appear on the home screen. Closer to ambient: no feed to scroll. But still **push-based** (someone takes a photo, others receive it) and the content is literal photographs.
+- **BeReal** — synchronized daily prompt; everyone posts at the same random moment. Lowers performance pressure, but still feed-shaped, post-shaped, and demands a daily action.
+- **"Doorbell"-style ping apps (Poke, yo, Wave)** — one tap = "thinking of you." Genuinely low-effort, but binary: pinged or not. No expressive content; still uses notifications.
+
+These three confirm the appetite for something gentler than IG and less demanding than DMs. But all of them keep three properties we deliberately want to remove:
+
+1. **Push semantics** — someone sends, someone receives
+2. **Literal content** — a photo, a tap (not an abstracted trace)
+3. **Direct addressing** — posted _to_ a friend list
+
+Night City Block replaces these with **ambient generation** (the city renders, no one sends), **expressive abstraction** (a diary becomes weather, not a photo), and **architectural disclosure** (visibility comes from spatial proximity, not a recipient list). Whether that swap still produces felt closeness — or whether removing push / literal / direct kills the very thing that makes those apps work — is exactly what we want to find out.
+
+### 1.4 What We Want to Find Out
+
+The reason this is a research project, and not just a design exercise, is that we don't yet know whether this register actually works. Concretely, we want to test:
+
+- Whether expressive, indirect traces (a window color, a tinted weather, a smear of street art) can produce real felt closeness — or whether they read as decoration.
+- Whether **architectural** privacy (closer space = more disclosure) feels intuitive, or whether users still want a settings menu.
+- Which city elements (weather, street traces, simultaneous presence) actually carry the social signal, and which are just visual noise.
+
+These map onto RQ1–RQ3 in §4. The literature in §2 grounds why each of these is worth asking — but the questions come from the design first.
+
+### 1.5 The Interaction Scenario
 
 We are designing **Night City Block**, a shared digital urban environment where a small group of close friends (~5 people) each inhabit a personal "block" — rendered as a lit apartment window, shopfront, or rooftop in a living night-city scene. The city is not a social feed or a messaging interface. It is a collective ambient display: your block reflects you through the traces of a private daily diary (a drawing, a photo, a chosen color, a single word), and you discover your friends by wandering through theirs. Nobody sends anything directly. Connection happens through the city noticing you both.
 
 The system is explicitly designed around calm technology principles: information flows to the periphery, not the center. You are not asked to respond. You do not receive notifications. You simply coexist — and the city, over time, tells a layered story of who was here, when, and in what state of mind.
 
-### 1.4 Target Audience
+### 1.6 Target Audience
 
 The primary target users are **young adults in intimate friend groups (3–8 people)** who are geographically dispersed — living in different apartments, cities, or time zones — and who want lightweight, emotionally resonant awareness of each other without the pressure of explicit communication. Secondary contexts include long-distance couples and creative communities who value expressive over informational sharing.
 
 ---
 
 ## 2. Literature Review
+
+The design instincts in §1 line up with a substantial body of HCI and social-psychology work. Two broad findings frame why this register is worth designing for. First, the stakes of social disconnection are severe and well-documented: Holt-Lunstad et al.'s 2015 meta-analysis (3.4M participants, 70 studies) ties loneliness to a 26% increase in early-mortality risk and social isolation to 29% — comparable to obesity and smoking; their 2010 meta-analysis links being socially connected to a 50% increase in odds of survival. Second, more digital connectivity is not closing the gap: a nine-year longitudinal study of nearly 7,000 adults found that both passive _and_ active social-media use predicted increased loneliness over time, and the effect was most pronounced among users who turned to these platforms specifically to maintain close relationships (Roberts et al., 2025). Smartphone notifications alone — even when ignored — measurably worsen attention and well-being (Kushlev & Dunn, 2016). Awareness systems and calm technology have been studied in HCI since Weiser and Brown (1996), but most of that work targets workplace collaboration or elderly/family communication. Ambient social connection in an expressive, low-demand register, for young adults in geographically dispersed friend groups, remains underexplored.
 
 ### 2.1 Calm Technology and Peripheral Awareness
 
@@ -159,4 +203,6 @@ This midterm proposal focuses on motivation, literature, and research objectives
 11. Roberts, J. A., Young, P., & David, M. E. (2025). The epidemic of loneliness: A nine-year longitudinal study of the impact of passive and active social media use on loneliness. _Personality and Social Psychology Bulletin._ https://doi.org/10.1177/01461672241290235
 
 12. Kushlev, K., & Dunn, E. W. (2016). "Silence your phones": Smartphone notifications increase inattention and hyperactivity symptoms. _Proceedings of the ACM CHI Conference on Human Factors in Computing Systems_, 1011–1020. https://doi.org/10.1145/2858036.2858359
+
+13. Ritter, M. (n.d.). _The Friendship Habit_ [Newsletter]. The Friendship Guy. Concept of "doorbell friends" — friends welcomed without scheduling, built through low-stakes consistency rather than planned intensity. https://www.thefriendshipguy.com/newsletter
 
