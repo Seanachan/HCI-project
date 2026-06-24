@@ -1,0 +1,539 @@
+% ============================================================
+%  Parting Is a Sweet Sorrow
+%  An Ambient Co-Presence Space for Friendships Drifting Apart
+%  Final Research Proposal — CSIE 116 (HCI / HAX)
+%
+%  Engine: XeLaTeX (for CJK author names via PingFang TC on macOS).
+%  Build:  latexmk -xelatex main.tex      (or see README.md)
+% ============================================================
+\documentclass[11pt]{article}
+
+\usepackage{fontspec}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+% --- CJK support for Chinese author names (XeLaTeX) ---
+% If xeCJK / the font is unavailable, comment the next two lines out
+% and the document still compiles (author names fall back to romanized).
+\usepackage{xeCJK}
+\setCJKmainfont{PingFang TC}
+
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage{enumitem}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[colorlinks=true,linkcolor=accent,citecolor=accent,urlcolor=accent]{hyperref}
+
+\definecolor{accent}{HTML}{4A5A78}
+\definecolor{rust}{HTML}{A6505A}
+\definecolor{rowgray}{HTML}{F4F1EC}
+
+% Colored section headings without titlesec (minimal TeX install).
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{\z@}%
+  {-3.5ex \@plus -1ex \@minus -.2ex}{2.3ex \@plus .2ex}%
+  {\normalfont\Large\bfseries\color{accent}}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+  {-3.25ex \@plus -1ex \@minus -.2ex}{1.5ex \@plus .2ex}%
+  {\normalfont\large\bfseries\color{accent}}}
+\makeatother
+\setlist{itemsep=2pt, topsep=3pt}
+\renewcommand{\arraystretch}{1.25}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+% Property-matrix marks.
+\newcommand{\cmark}{\textcolor{accent}{\checkmark}}
+\newcommand{\xmark}{\textcolor{rust}{\ensuremath{\times}}}
+\newcommand{\pmark}{\textcolor{rust}{\ensuremath{\sim}}}
+
+\title{\vspace{-1.2cm}\textbf{\color{accent}Parting Is a Sweet Sorrow}\\[0.35em]
+{\large\color{rust} An Ambient Co-Presence Space for Friendships\\ Drifting Apart in Young Adulthood}\\[0.6em]
+{\normalsize\itshape Final Research Proposal — CSIE 116 (HCI / HAX)}}
+
+\author{白昕宸 \quad 蘇楷峻 \quad 顏孜芸\\[0.2em]
+{\small Department of Computer Science and Information Engineering}}
+\date{June 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+Adult friendships rarely end in a fight. Far more often they \emph{drift}: as
+classes split, people relocate, and life paths diverge, the daily texture of
+incidental contact quietly disappears and a once-close bond fades without any
+explicit breakup. This pattern --- \textbf{passive friendship dissolution} ---
+produces a distinctive loneliness that is invisible to the people experiencing
+it and to the tools meant to help them. We argue that current technologies make
+the problem worse: social platforms run on a logic of \emph{broadcast,
+performance, and comparison}, AI companions offer comfort but never the feeling
+of \emph{being needed}, and friend-matching apps optimize for making
+\emph{new} ties rather than \emph{maintaining} existing close ones. Across the
+HCI literature, three design lineages --- ambient awareness, digital third
+places, and asynchronous communication --- each solve one half of the problem
+and leave the same gap open. We propose \textbf{Parting Is a Sweet Sorrow}, an
+ambient co-presence space in which a small group of friends inhabit a shared,
+projected ``night sky'' that they build together from privately meaningful
+objects and a shared vocabulary of light, color, and sound. The system is
+designed to let members feel the group is \emph{still there} without demanding
+performance or reply. We pose three research questions --- on whether projected
+shared space sustains felt co-presence (RQ1), on whether non-performative
+ambient presence lowers comparison and performance pressure while preserving
+connectedness (RQ2), and on whether the space changes the willingness to
+maintain a drifting friendship (RQ3) --- and outline a mixed-methods evaluation
+anchored on the Affective Benefits and Costs Questionnaire (ABC-Q).
+\end{abstract}
+
+% ============================================================
+\section{Research Motivation}
+% ============================================================
+
+We frame the motivation with the \textbf{ABT} structure (\emph{And, But,
+Therefore}) required by the project rubric.
+
+\subsection{And --- friendships are load-bearing infrastructure of young adulthood}
+
+Close friendships are not a luxury of young adulthood; they are the
+developmental scaffolding on which it is built. Emerging adulthood (roughly
+18--30) is the life stage of maximal identity exploration and instability
+\citep{arnett2000}, and it is also a peak of the lifespan loneliness curve
+\citep{qualter2015, barreto2021}. During exactly this window, friendships do the
+heavy lifting: they are where young adults build the intimacy skills that
+underwrite \emph{every} later relationship \citep{rawlins2017}, and the quality
+of close friendship in adolescence remains a significant long-term predictor of
+adult emotional health \citep{allen2024}. Mutual close friendships also act as a
+\emph{buffer}, protecting socially anxious young people against concurrent
+psychosocial risk \citep{erath2010}. In short, the bonds formed in this period
+are the foundation for lifelong relational capacity.
+
+\subsection{But --- friendships dissolve passively, and the drift is invisible}
+
+\textbf{But} adult friendships are unusually fragile, and they break in a
+particular way. \emph{Passive friendship dissolution} is the gradual,
+unstructured ending of a friendship \emph{without confrontation or any explicit
+breakup conversation} \citep{vieth2022}. The Adult Friendship Dissolution
+Process Model holds that passive dissolution is steered by a combination of the
+actor's personal traits (attachment style, personality), situational pressures
+(distance, competing life demands), and perceptions of the friend's likely
+response --- which together push people toward \emph{gradually reducing contact}
+rather than openly ending the tie \citep{vieth2022}. A complementary
+features\,$\rightarrow$\,processes\,$\rightarrow$\,outcomes model of friendship
+shows that ``gradual drift'' is a distinct dissolution outcome, separate from
+direct rejection \citep{santucci2025}. Relocation studies confirm the mechanism
+empirically: most adolescents experience a measurable period of diminished
+access to companionship and intimacy after a move, with the effect larger for
+those already socially anxious \citep{vernberg2006}.
+
+The cruelty of this pattern is that it is \emph{invisible}. Because drift causes
+no acute crisis, it never triggers help-seeking; by the time loneliness arrives,
+it triggers \emph{withdrawal} rather than outreach \citep{cacioppo2015}. The
+loneliness itself is a \emph{discrepancy} between the closeness one has and the
+closeness one wants \citep{grigoriadis2024, hall2025} --- not an absence of
+contact. People in constant digital contact with friends they love can
+nonetheless feel the bond has quietly downgraded --- indeed, young adults
+themselves report that online contact often lacks the authenticity of in-person
+interaction and can enable avoidance and curation rather than genuine closeness
+\citep{scott2022}. And the scale is large: a
+majority of Gen~Z report feeling lonely ``sometimes or always''
+\citep{cigna2020}, yet ``friendship drift'' remains essentially unaddressed.
+Worse, the tools people reach for make it worse: a nine-year longitudinal study
+found social-media use \emph{predicts increasing} loneliness over time, with the
+strongest effect among those who use it specifically to maintain close ties
+\citep{robertsyoungdavid2025}.
+
+\subsection{Therefore --- make drift visible and restore ambient co-presence}
+
+\textbf{Therefore} we propose to design for this specific loneliness: not the
+loneliness of having no one, but the loneliness of friendships that have quietly
+downgraded across diverging paths. Researchers have mapped \emph{who} is at risk
+and \emph{what} the outcomes look like, but have not yet identified --- or
+designed for --- the \emph{daily interaction patterns} that produce passive
+drift \citep{santucci2025, hansen2025}. Our goal is an interactive space that
+makes drift visible before it becomes irreversible and that restores a sense of
+\emph{being together} without requiring the performance that today's tools
+demand.
+
+\subsection{Target audience}
+
+Young adults aged roughly 18--30 (``adolescents in transition'') who are passing
+through the life transitions --- graduation, relocation, class- or
+school-changes, the start of work --- that scatter an existing friend group into
+divergent daily routines. We target groups of close friends (group size $\sim$5)
+who already share history and want to \emph{maintain} that closeness across
+distance, rather than strangers seeking to form new ties.
+
+% ============================================================
+\section{Background: How Friendships Work and Why They Drift}
+% ============================================================
+
+To see why passive dissolution is hard to address, we locate it inside a model of
+how friendship operates. \citet{santucci2025} describe friendship as a chain from
+\emph{features} (individual behavior and cognition), through \emph{processes}
+(positive interactions such as companionship and support; negative ones such as
+conflict), to \emph{outcomes} (maintenance vs.\ dissolution, where dissolution
+splits into \emph{gradual drift} and \emph{direct rejection}). Passive
+dissolution is the gradual-drift branch: it is produced not by any negative
+interaction but by the slow \emph{subtraction} of positive ones.
+
+This is what makes it hard to design for. The field has mapped the
+\emph{endpoints} --- who is at risk (young adults in transition: relocation,
+graduation, school change \citep{vieth2022, vernberg2006}) and what the final
+outcome looks like (a friendship observed only after it has dissolved) --- but
+the \emph{middle}, the week-to-week interaction dynamics that tip a bond from
+``maintained'' into ``drifted,'' remains largely unobserved \citep{santucci2025}.
+\textbf{It is hard to design interventions for a process we cannot see.}
+
+\paragraph{Why this loneliness matters --- a three-horizon view.}
+The stakes compound over time. \textbf{Now}, the gap between attained and desired
+closeness produces loneliness and depressed mood \citep{grigoriadis2024}.
+\textbf{In the mid-term}, the person loses the buffer that good mutual
+friendships provide against social anxiety \citep{erath2010}. \textbf{In the
+long term}, because adolescent and young-adult friendship quality predicts adult
+emotional health \citep{allen2024}, the damage carries forward. If young adults
+internalize the lesson that ``relationships naturally fade,'' they may enter
+adulthood unwilling to invest in any bond that requires sustained effort --- a
+mass-scale system failure that each individual experiences as personal failure.
+
+% ============================================================
+\section{Related Work}
+% ============================================================
+
+\subsection{Loneliness as discrepancy, not absence}
+
+A consistent finding across the loneliness literature is that loneliness is a
+\emph{perceived discrepancy} between desired and actual closeness, not a count
+of contacts \citep{grigoriadis2024, qualter2015}. Emerging adulthood is both the
+developmental period of greatest relational flux \citep{arnett2000} and a peak in
+the lifespan loneliness curve \citep{barreto2021, qualter2015}. \citet{hall2025}
+characterize young-adult loneliness as a product of ``rapid life changes and a
+lack of relational permanence and routine'' rather than of having no one ---
+which is exactly the experiential signature of passive drift. This reframes the
+design target: the problem is not connecting strangers but \emph{sustaining felt
+closeness} in existing bonds whose routines have been disrupted.
+
+\subsection{Passive vs.\ active dissolution}
+
+\citet{vieth2022} distinguish \emph{active} dissolution (an explicit, often
+conflict-driven ending) from \emph{passive} dissolution (a gradual withdrawal of
+contact), and model the actor-, partner-, and context-level predictors that
+route a friendship toward one or the other. \citet{santucci2025} situate
+dissolution within the broader friendship lifecycle and identify gradual drift
+as a distinct outcome with its own dynamics. Recent HCI work corroborates this
+from the lived-experience side: interviews with people in long-term online
+friendships find that such ties are sustained through accumulated, low-key
+interaction and quietly erode when that interaction lapses, suggesting that
+systems should support \emph{sustained interaction over time} rather than
+momentary tie-strength \citep{yong2025}. Together these works establish that
+passive dissolution is a phenomenon in its own right --- and that it has been
+characterized at the level of \emph{predictors} and \emph{outcomes} but not yet
+at the level of \emph{designable daily interaction}.
+
+\subsection{Why current tools fail}
+
+Existing technologies fail this problem in four characteristic ways.
+
+\begin{description}[leftmargin=1.2em, style=nextline]
+\item[The ``new friends'' paradox.] Friend-matching platforms optimize the
+\emph{match} but ignore the roughly 200 hours of shared time needed to build a
+close bond \citep{hall2019}; they manufacture introductions, not maintenance.
+\item[Social snacks, not nutrition.] Mainstream social media runs on broadcast,
+performance, and comparison. It fosters rumination about how one is perceived and
+unfavorable social comparison \citep{stritzke2004}, and longitudinally
+\emph{increases} loneliness for the very people using it to stay close
+\citep{robertsyoungdavid2025}. It offers ``social snacks'' where the need is
+emotional nutrition.
+\item[Comfort without being needed.] AI companions can provide support and
+comfort \citep{ta2020}, but cannot offer the feeling of \emph{being needed} by
+another person --- the reciprocal interdependence that anchors a genuine close
+bond.
+\item[Breadth over depth.] Interventions and platforms skew toward
+\emph{making new} ties or treating clinical loneliness, and toward breadth
+metrics (follower counts, group-chat size). Tools for \emph{maintaining} existing
+close bonds across distance, and for making drift visible before it is
+irreversible, are largely missing \citep{akhterkhan2020, hansen2025}.
+\end{description}
+
+\subsection{Three HCI lineages, each solving half the problem}
+
+The raw materials for a solution already exist in HCI, distributed across three
+lineages --- but each addresses only one half of passive drift, and each leaves
+the same gap (Table~\ref{tab:lineages}).
+
+\begin{table}[t]
+\centering
+\caption{Three design lineages that each solve half of the passive-drift problem.}
+\label{tab:lineages}
+\small
+\begin{tabularx}{\textwidth}{>{\bfseries}p{2.9cm} Y Y}
+\toprule
+Lineage & What it contributes & The gap it leaves \\
+\midrule
+Ambient awareness &
+Peripheral cues make users aware of another's ongoing presence \emph{without
+interrupting} them, raising felt connectedness \citep{deyguzman2006,
+markopoulos2004, madianou2016}. &
+Built almost entirely for \emph{one-to-one} or family ties (caregiving, couples),
+not for peer \emph{groups} drifting apart. \\
+\rowcolor{rowgray}
+Digital third places &
+Persistent shared ``places'' sustain repeated, low-pressure interaction and
+casual co-presence \citep{kim2025}. &
+Organized around outward \emph{interests} and often strangers, not around the
+shared history of an existing friend group. \\
+Asynchronous communication &
+Removing the demand for real-time response lowers social anxiety and impression-
+management load \citep{high2009, stritzke2004}. &
+Treated as a \emph{feature} of messaging tools, never integrated into the design
+of a shared interactive \emph{space}. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{The research gap}
+
+No existing system unifies all four properties that passive drift demands:
+\emph{(i)} ambient, peripheral presence that does not interrupt; \emph{(ii)}
+\emph{group}-scale rather than dyadic; \emph{(iii)} asynchronous and
+\emph{non-performative}, removing comparison and reply pressure; and
+\emph{(iv)} organized around an existing \emph{relationship} and its shared
+history rather than around interests or strangers.
+
+Recent work has begun to move toward this gap without closing it.
+\citet{shakeri2024} formalize \emph{passive co-presence} as a design construct
+--- a low-effort, non-demanding sense of another's presence over distance ---
+but study families rather than peer groups. \citet{leong2023} field-test an
+ecosystem of distributed, physically-grounded artifacts for staying lightly
+connected to remote friends, showing real demand for ambient, non-screen-centric
+connection, yet realize it as discrete \emph{objects} rather than a single shared
+\emph{space} that a group builds and inhabits together. And \citet{huschke2025}
+distill design themes specifically for long-distance \emph{friendship}
+relatedness, confirming that the friendship case --- as opposed to romantic or
+family ties --- is a distinct, under-served target. The design space of ambient
+co-presence has thus been developed productively for transnational families
+\citep{madianou2016} and is only beginning to be charted for friends; no system
+yet unifies the four properties above for a drifting peer group. We propose to
+extend \emph{passive co-presence} \citep{shakeri2024} into exactly this gap.
+
+% ============================================================
+\section{Design Concept: \textit{Parting Is a Sweet Sorrow}}
+% ============================================================
+
+\subsection{An ambient co-presence space}
+
+We propose a shared, persistent, projected space that a small group of friends
+\emph{builds together}. The guiding metaphor is a \textbf{tent pitched with
+friends and a shared night sky}. Inside the tent are only things the group
+mutually understands --- a toy everyone once chipped in to buy, a pen someone
+always used --- objects that carry shared memory. Step outside the tent and the
+sky overhead is full of stars, where \emph{each star is a small spark sent by a
+friend}. The space is, in one line, \emph{``an ambient atmosphere device, made
+of the objects that hold your shared memories, that works across distance.''}
+
+Crucially, the canvas is legible \emph{only to the group}. Following the
+night-sky example: the group shares one sky-canvas; each member can add to it;
+and what everyone finally sees is the same sky --- \emph{``the sky you built
+together.''} Presence is felt in the periphery, not consumed in the center
+\citep{weiserbrown1996}, and is expressed through graspable and ambient media
+rather than text \citep{ishiiullmer1997}. The design directly inherits the
+``presence display'' tradition that converts \emph{awareness} into
+\emph{connectedness} \citep{deyguzman2006, markopoulos2004}.
+
+\subsection{Three mechanisms}
+
+\begin{enumerate}[label=\textbf{M\arabic*.}, leftmargin=2.4em]
+\item \textbf{A shared interaction vocabulary.} The group agrees on what its
+signals \emph{mean} --- a light or color, a type of object, an ambient sound.
+Meaning is co-defined and local to the group, not dictated by the platform.
+\item \textbf{Private hints.} Signals carry semantics private to the group ---
+e.g., \emph{a purple shimmer might mean ``thinking of you.''} An outsider sees
+only atmosphere; insiders read meaning. This is privacy by \emph{legibility}, not
+by settings.
+\item \textbf{Add / remove objects --- trace design.} Members add and remove
+objects in the space; what accumulates is a \emph{trace} of presence over time,
+a slow-built record of having-been-here-together rather than a feed of
+performances.
+\end{enumerate}
+
+These mechanisms instantiate the four gap-closing properties: they are ambient
+(M1, M2), group-scale and relationship-anchored (the shared sky, M3),
+asynchronous and non-performative (traces accrue without demanding reply), and
+they encode privacy architecturally through shared-only legibility (M2).
+
+\subsection{Positioning against existing systems}
+
+Table~\ref{tab:landscape} situates the concept against representative systems in
+the surrounding design landscape. Each prior system supplies one ingredient;
+none combines all four.
+
+\begin{table}[t]
+\centering
+\caption{Design landscape as a property matrix. Columns are the four properties passive drift demands:
+\textbf{Amb}ient (peripheral, non-interrupting), \textbf{Grp} (group- not dyadic-scale),
+\textbf{A/NP} (asynchronous and non-performative), \textbf{Rel}ationship-anchored (an existing bond,
+not interests or strangers). \cmark{}~satisfies, \pmark{}~partial, \xmark{}~absent. Each prior system
+misses at least one; only our system satisfies all four.}
+\label{tab:landscape}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{4.2cm} c c c c >{\raggedright\arraybackslash}X}
+\toprule
+Representative system & Amb & Grp & A/NP & Rel & Key limitation for passive drift \\
+\midrule
+Digital Family Portrait \citep{mynatt2001} & \cmark & \xmark & \cmark & \cmark & One-to-one / caregiving, not a peer group. \\
+\rowcolor{rowgray}
+Family awareness, e.g.\ ASTRA \citep{markopoulos2004} & \cmark & \pmark & \cmark & \cmark & Built and validated for \emph{families}, not peers. \\
+BuddyBeads \citep{kikingil2006} & \pmark & \xmark & \cmark & \cmark & Dyadic; fixed small clique, narrow expressivity. \\
+\rowcolor{rowgray}
+\emph{Animal Crossing} shared island & \xmark & \cmark & \cmark & \xmark & Game/activity-framed, not relationship maintenance. \\
+\emph{Between} (couples) & \xmark & \xmark & \xmark & \cmark & Dyadic; creates response-waiting pressure. \\
+\rowcolor{rowgray}
+\emph{Discord} friend server & \xmark & \cmark & \pmark & \xmark & Performative posting, public comparison, topic-organized. \\
+\midrule
+\textbf{\textit{Parting Is a Sweet Sorrow}} & \cmark & \cmark & \cmark & \cmark & \textbf{Unifies all four for drifting peer groups.} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Design principles}
+
+The concept is governed by four principles drawn from the literature:
+(1)~\emph{Periphery over center} --- presence lives at the edge of attention, not
+as a notification demanding the center \citep{weiserbrown1996};
+(2)~\emph{Ambient and tangible over textual} --- meaning is carried by light,
+color, sound, and objects \citep{ishiiullmer1997};
+(3)~\emph{Awareness becomes connectedness} --- the design target is felt
+connectedness, the documented effect of well-made presence displays
+\citep{deyguzman2006, markopoulos2004}; and
+(4)~\emph{Non-performative by construction} --- because the medium cannot be used
+to broadcast or compete, it removes the impression-management load that drives
+both social anxiety \citep{high2009, stritzke2004} and the loneliness paradox of
+mainstream social media \citep{robertsyoungdavid2025}. That such load can be
+\emph{designed away} is not merely hypothetical: BeReal's design --- randomized
+timing, reciprocal posting, and no curation --- has been shown to suppress
+self-presentation pressure and reframe social comparison among young adults
+\citep{kim2024bereal}, a precedent our atmosphere-from-objects mechanism extends
+from momentary snapshots to persistent ambient presence.
+
+% ============================================================
+\section{Research Objectives and Questions}
+% ============================================================
+
+\noindent\textbf{Objective.} To design and evaluate an ambient, non-performative
+shared space that lets a scattered group of close friends sustain felt
+co-presence across distance, and to test whether doing so lowers performance and
+comparison pressure while preserving --- or strengthening --- the willingness to
+maintain a drifting friendship.
+
+\begin{description}[leftmargin=1.4em, style=nextline]
+\item[RQ1 (Foundation).] Can a projected shared space let members
+\emph{persistently perceive that ``the friend group still exists''} without
+requiring direct, real-time interaction?
+\item[RQ2 (Core).] Can this blurry, non-performative co-presence \emph{maintain
+connectedness while lowering performance and social-comparison pressure}, relative
+to existing tools?
+\item[RQ3 (Real world).] How does living with this space \emph{affect young
+adults' willingness and intention to maintain a drifting friendship}, and through
+what experienced mechanism?
+\end{description}
+
+The three questions are deliberately layered: RQ1 tests the \emph{precondition}
+(felt persistent presence), RQ2 tests the \emph{core claim} (presence without
+pressure), and RQ3 tests the \emph{downstream relational consequence} in lived
+use.
+
+% ============================================================
+\section{Evaluation Plan}
+% ============================================================
+
+We propose a mixed-methods evaluation, with one strand per research question
+(Table~\ref{tab:eval}).
+
+\begin{table}[t]
+\centering
+\caption{Evaluation plan, by research question.}
+\label{tab:eval}
+\small
+\begin{tabularx}{\textwidth}{>{\bfseries}p{1.4cm} Y p{4.2cm}}
+\toprule
+RQ & Approach & Primary measure \\
+\midrule
+RQ1 & Test whether the tent atmosphere and shared sky produce persistent awareness that ``the group is always there.'' We measure the \emph{sense of continuous presence}, not the \emph{number} of signals received. & Judgment-accuracy of perceived presence; self-reported continuity of awareness. \\
+\rowcolor{rowgray}
+RQ2 & Compare our space against participants' existing tools. Hypothesis: \emph{affective benefits are maintained while affective costs drop.} & Affective Benefits and Costs Questionnaire (ABC-Q): Affective Benefits, Affective Costs, Perceived Awareness \citep{ijsselsteijn2009}. \\
+RQ3 & Qualitative interviews: does a presence that requires \emph{no} image-management feel more relaxed, and does it sustain connection? How does this happen? & Thematic analysis of interview transcripts. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The ABC-Q \citep{ijsselsteijn2009} is central to RQ2 because it was purpose-built
+to measure the \emph{affective} characteristics of mediated awareness --- both
+its benefits (e.g., connectedness) and its costs (e.g., obligation, pressure) ---
+which is exactly the benefit-without-cost trade-off our design claims to improve.
+RQ1's emphasis on \emph{accuracy of perceived presence} rather than message
+volume operationalizes the calm-technology claim that the system should inform
+the periphery without capturing the center \citep{weiserbrown1996}. RQ3's
+qualitative strand is where we expect to surface the experienced mechanism ---
+whether removing performance is what makes sustained, low-effort closeness feel
+possible.
+
+% ============================================================
+\section{Self-Assessment: McGee's Eight Questions}
+% ============================================================
+
+\begin{table}[t]
+\centering
+\caption{Self-assessment against Prof.\ Kevin McGee's eight fundamental questions.}
+\label{tab:mcgee}
+\small
+\begin{tabularx}{\textwidth}{>{\bfseries}p{4.6cm} Y}
+\toprule
+Question & Our answer \\
+\midrule
+What is the research problem? & How to sustain felt co-presence in friend groups undergoing \emph{passive} dissolution, without the performance and comparison pressure of current tools. \\
+\rowcolor{rowgray}
+Is the problem significant? & Yes: young-adult loneliness is a peak-vulnerability, high-prevalence phenomenon \citep{barreto2021, cigna2020} with lifelong consequences for relational capacity \citep{allen2024, rawlins2017}. \\
+What is the contribution to knowledge? & A design and an evaluation of \emph{group-scale, non-performative ambient co-presence} for drifting peer friendships --- a gap left by all three existing HCI lineages. \\
+\rowcolor{rowgray}
+Is the contribution vital? & Drift is invisible and currently un-designed-for; existing tools \emph{worsen} it \citep{robertsyoungdavid2025}. A maintenance-oriented, non-performative alternative is needed. \\
+Originality of the contribution. & Extends the \emph{passive co-presence} construct \citep{shakeri2024} and ambient co-presence \citep{madianou2016} from families to peer groups, and unifies ambient $+$ group $+$ asynchronous $+$ relationship-anchored design --- a combination not present in prior systems (Table~\ref{tab:landscape}). \\
+\rowcolor{rowgray}
+How do readers know it is original? & The landscape and lineage analyses (Tables~\ref{tab:lineages},~\ref{tab:landscape}) show each prior system supplies only one ingredient; none combines all four. \\
+Validity of the contribution. & To be established through a layered, falsifiable design (RQ1--RQ3) using a validated instrument (ABC-Q, \citealp{ijsselsteijn2009}) plus thematic analysis. \\
+\rowcolor{rowgray}
+Is it appropriate for the discipline? & Yes: it is squarely an HCI / HAX contribution, building on calm technology \citep{weiserbrown1996}, tangible bits \citep{ishiiullmer1997}, and presence displays \citep{deyguzman2006}. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% ============================================================
+\section{Expected Contributions}
+% ============================================================
+
+We expect three contributions. \emph{Conceptually}, we name and target a
+specific, under-served form of loneliness --- the loneliness of passive
+friendship drift --- and articulate why mainstream tools structurally worsen it.
+\emph{In design}, we contribute \textit{Parting Is a Sweet Sorrow}: a
+group-scale, non-performative ambient co-presence space defined by three
+mechanisms (shared vocabulary, private hints, trace-based objects) that together
+close the gap left by prior ambient-awareness, third-place, and asynchronous
+systems. \emph{Methodologically}, we contribute an evaluation design that
+separates felt persistent presence (RQ1) from the benefit-without-cost claim
+(RQ2, via ABC-Q) and from the downstream relational effect (RQ3), giving each a
+distinct, testable measure.
+
+\vspace{0.4em}
+\noindent\textit{Parting is such sweet sorrow} --- the aim of this work is to
+make the sorrow gentler, and the parting less final, by letting friends remain
+ambiently, unperformingly, together.
+
+% ============================================================
+\bibliographystyle{plainnat}
+\bibliography{references}
+% ============================================================
+
+\end{document}
