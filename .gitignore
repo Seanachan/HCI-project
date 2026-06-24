@@ -8,6 +8,3 @@ latex/main.log
 latex/main.out
 latex/main.xdv
 latex/main.run.xml
-
-# Exceeds GitHub's 100 MB per-file limit — tracked out-of-band, not in git.
-presentation/Second.pdf
