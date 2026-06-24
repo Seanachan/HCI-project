@@ -100,11 +100,21 @@ A growing literature, summarized in Hassenzahl et al. (2012) and more recently i
 
 ### 2.7 Knowledge Gaps This Project Addresses
 
-The existing literature on ambient awareness systems has two significant gaps that this project addresses:
+Two complementary observations frame this gap. First, generic loneliness interventions consistently underperform: Akhter-Khan & Au (2020) argue this is because loneliness is treated as a single phenomenon rather than a heterogeneous experience with distinct mechanisms, and they call for a **precision-health** approach — interventions targeted at specific subtypes, populations, and causal mechanisms. Second, where prior reviews have applied this lens, they have repeatedly landed on older adults: Hansen et al.'s (2025) systematic review and meta-analysis of 40 RCTs of digital loneliness interventions explicitly notes that "published reviews have so far largely focused on older adults, leaving adolescents and young adults — digitally active groups with rising loneliness rates — understudied."
 
-1. **The aesthetic and expressive dimension of ambient social systems is understudied.** Most existing awareness systems — Presence Displays, ASTRA, CareNet — focus on conveying presence and availability, not on expressive or artistic self-representation. They tell you _that_ someone is home; they do not tell you anything about _who_ that person is. Night City Block proposes diary-driven, artistically-generated ambient output as the primary signal, creating a richer and more emotionally resonant form of ambient presence.
+Within HCI specifically, the absence is even sharper. Pang et al. (2025) explicitly identify online friendship as "an invisible marginalized community" in HCI design research — under-theorized compared to professional collaboration, romantic relationships, family communication, and elder care. Pang, Pelaprat & Helmes (2015) remain the canonical CSCW anchor for adult friendship maintenance, with strikingly few follow-ups in the intervening decade.
 
-2. **The spatial and architectural metaphor has not been systematically explored as a privacy and intimacy interface.** Privacy in existing systems is managed through settings and permission layers. We propose using _spatial architecture_ — inside a room, a window, a doorstep, the street — as a naturalistic and intuitive privacy model, and study whether this lowers the cognitive and social cost of managing self-disclosure.
+The phenomenon we design against — **passive friendship dissolution** (Vieth, Rothman & Simpson, 2022; Fehr, 1996) producing **"friendship downgrades"** (Stewart-Brown, 2024) felt as the loneliness of "rapid life changes and lack of relational permanence" (Hall, Pennington & Holmstrom, 2025) — has only been precisely named in the last three years. The HCI design space has not yet responded.
+
+Madianou's (2016) **ambient co-presence** framework is established and productive, but has been developed exclusively for transnational families. We extend it to peer friendships in geographically dispersed young adults — a relational structure her ethnography did not address.
+
+Concretely, this proposal addresses three connected gaps:
+
+1. **Aesthetic / expressive ambient social systems are understudied.** Most prior awareness systems (Presence Displays, ASTRA, CareNet) convey presence and availability, not expressive identity. They tell you _that_ someone is home; they do not tell you anything about _who_ that person is. Night City Block uses diary-driven, artistically-generated ambient output as the primary signal.
+
+2. **Spatial / architectural metaphor has not been systematically studied as a privacy interface.** Privacy in existing systems is managed via settings and permission layers. We propose architectural disclosure — spatial proximity in a city encodes visibility (interior room → window → doorstep → street → back alley) — and ask whether this lowers the cognitive and social cost of managing self-disclosure.
+
+3. **Ambient co-presence has not been applied to peer friendship in dispersed young adults.** Madianou's frame, plus the Pang (2015 / 2025) line, indicates this population is exactly where ambient co-presence research has not yet gone — despite Qualter et al.'s (2015) U-shaped loneliness curve and Arnett's (2000) emerging-adulthood theory both flagging this developmental window as structurally vulnerable to passive friendship loss.
 
 ---
 
@@ -205,4 +215,26 @@ This midterm proposal focuses on motivation, literature, and research objectives
 12. Kushlev, K., & Dunn, E. W. (2016). "Silence your phones": Smartphone notifications increase inattention and hyperactivity symptoms. _Proceedings of the ACM CHI Conference on Human Factors in Computing Systems_, 1011–1020. https://doi.org/10.1145/2858036.2858359
 
 13. Ritter, M. (n.d.). _The Friendship Habit_ [Newsletter]. The Friendship Guy. Concept of "doorbell friends" — friends welcomed without scheduling, built through low-stakes consistency rather than planned intensity. https://www.thefriendshipguy.com/newsletter
+
+14. Pang, C., Pelaprat, E., & Helmes, J. (2015). Friendship maintenance in the digital age. _Proceedings of the 18th ACM Conference on Computer Supported Cooperative Work & Social Computing (CSCW '15)_, 105–108. https://doi.org/10.1145/2675133.2675294
+
+15. Pang, C., et al. (2025). "I'm petting the laptop, which has you inside it": Reflecting on lived experiences of online friendship. _arXiv:2506.20055._
+
+16. Vieth, G., Rothman, A. J., & Simpson, J. A. (2022). Friendship loss and dissolution in adulthood: A conceptual model. _Current Opinion in Psychology_, 43, 171–175. https://doi.org/10.1016/j.copsyc.2021.07.020
+
+17. Fehr, B. (1996). _Friendship Processes._ Sage Series on Close Relationships. Sage Publications.
+
+18. Stewart-Brown, et al. (2024). With or without you: Understanding friendship dissolution from childhood through young adulthood. _PMC12316385._
+
+19. Hall, J. A., Pennington, N., & Holmstrom, A. J. (2025). Lonely and connected in emerging adulthood: The ambivalence of sociality in a time of transitions. _PLOS ONE_, 20(11), e0334787. https://doi.org/10.1371/journal.pone.0334787
+
+20. Madianou, M. (2016). Ambient co-presence: Transnational family practices in polymedia environments. _Global Networks_, 16(2), 183–201. https://doi.org/10.1111/glob.12105
+
+21. Qualter, P., Vanhalst, J., Harris, R., Van Roekel, E., Lodder, G., Bangee, M., Maes, M., & Verhagen, M. (2015). Loneliness across the life span. _Perspectives on Psychological Science_, 10(2), 250–264. https://doi.org/10.1177/1745691615568999
+
+22. Arnett, J. J. (2000). Emerging adulthood: A theory of development from the late teens through the twenties. _American Psychologist_, 55(5), 469–480. https://doi.org/10.1037/0003-066X.55.5.469
+
+23. Akhter-Khan, S. C., & Au, R. (2020). Why loneliness interventions are unsuccessful: A call for precision health. _Advances in Geriatric Medicine and Research_, 2(3), e200016. https://doi.org/10.20900/agmr20200016
+
+24. Hansen, T., Johansen, R., Kirkøen, B., Stene-Larsen, K., Straiton, M., Tornes, R. A., & Reneflot, A. (2025). Digital bridges to social connection: A systematic review and meta-analysis of digital interventions for loneliness and social isolation. _Internet Interventions_, 41, 100856. https://doi.org/10.1016/j.invent.2025.100856
 
